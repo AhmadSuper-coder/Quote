@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b0e9c9da4b.js" crossorigin="anonymous"></script>
+  </head>
+  <style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: black;
+    }
+
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80vh;
+        border-radius: 10px;
+        background-image: linear-gradient(to left,rgba(117, 11, 150, 0.425),rgba(48, 144, 207, 0.466));
+    }
+
+    .quote{
+        background-color: white;
+        padding:30px 20px;
+        
+    }
+
+    .box{
+        position: relative;
+    }
+
+    #t-icon {
+        position: absolute;
+        top:-75px;
+        right: -55px;
+        font-size: 40px;
+        box-shadow: 5px 5px 5px;
+        border-radius: 50px;
+    }
+
+    #t-icon:hover{
+        transform: rotate(360deg);
+        transition: 2s;
+    }
+
+    .left {
+        position: absolute;
+        bottom: 25px;
+        left:-10px;
+        opacity: 0.5;
+        font-size: 25px;
+    }
+
+    .right {
+        position: absolute;
+        top: -15px;
+        right:-15px;
+        opacity: 0.5;
+        font-size: 25px;
+    }
+
+    p{
+        text-align: justify;
+        font-family: cursive;
+        font-weight: 700;
+        opacity: 0.5;
+    }
+
+    .author {
+        color:red;
+    }
+
+
+  </style>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="outer col-md-8 col-10 mx-auto">
+                <div class="row quote">
+                    <div class="col-md-8 col-10 box mx-auto">
+                        <div class="mytext">
+                           <p class="text-justify">Welcome to Quote application, Read 1500+ above quote , just click on getNewQuote->
+                                <strong>DIFFICULT ROADS OFTEN LEAD TO BEAUTIFUL DESTINATIONS</strong>
+                            </p>
+                        </div>
+                        <div class="author my-3 text-end" id="author">By Ahmad Raza</div>
+                        <i class="fa-solid fa-quote-left left"></i>
+                        <i class="fa-solid fa-quote-right right"></i>
+                        <i class="fa-brands text-primary fa-twitter " id="t-icon"></i>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-small w-100" id="getQuote">get new quote</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+       
+        const btn=document.getElementById("getQuote");
+        const para=document.getElementsByTagName("p")[0];
+        const author=document.getElementById("author");
+        const ticon=document.getElementById("t-icon");
+
+
+
+        
+
+        let realdata="";
+        let mydata="";
+
+        
+        function makeTweet(){
+            let tweetpost=`https://twitter.com/intent/tweet?text=${mydata.text}`;
+            window.open(tweetpost);
+        }
+    
+
+        function getNewQuote(){
+            let rand=Math.floor(Math.random()*1600);
+            mydata=realdata[rand];
+            para.innerHTML=mydata.text;
+
+            if (mydata.author==null){
+                author.innerHTML="Annonymous";
+            }else{
+                author.innerHTML=mydata.author;
+            }
+           
+        }
+       
+        const getQuote=async ()=>{
+            const api="https://type.fit/api/quotes";
+            let data=await fetch(api);
+            realdata=await data.json();
+            getNewQuote();
+        }
+
+        ticon.addEventListener('click',makeTweet);
+        btn.addEventListener('click',getNewQuote);
+        getQuote();
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  </body>
+</html>
+
